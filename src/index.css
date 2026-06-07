@@ -4,8 +4,7 @@
   --font-sans: "Imprima", sans-serif;
 
   /* Colors */
-  --color-slate-700: oklab(100% 0 5.96046e-8/.1);
+  --color-slate-700: oklab(100% 0 5.96046e-8 / .1);
   --color-slate-750: oklab(1 0 5.96046e-8 / 0.05);
-  --color-slate-800: oklab(0.278 -0.00750866 -0.03213/ .5);
+  --color-slate-800: oklab(0.278 -0.00750866 -0.03213 / .5);
 }
-
