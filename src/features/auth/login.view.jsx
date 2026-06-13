@@ -1,5 +1,6 @@
 import { useLoginPresenter } from "./login.presenter";
 import ButtonLoading from "../../components/utilities/ButtonLoading";
+import ErrorMessage from "../../components/utilities/ErrorMessage";
 
 export default function LoginView() {
     const {
@@ -22,11 +23,7 @@ export default function LoginView() {
                 <div className="w-full flex justify-center">
                     <div className="w-full max-w-md bg-slate-800 border border-slate-700 p-8 rounded-md mt-8">
                         <form>
-                            {errorMessage && (
-                                <div className="bg-red-500/10 border border-red-500 text-red-500 p-3 rounded-md mb-4 text-sm">
-                                    {errorMessage}
-                                </div>
-                            )}
+                            <ErrorMessage message={errorMessage} />
 
                             <div>
                                 <label htmlFor="us_email" className="block text-sm/6 font-medium text-white">

@@ -6,12 +6,10 @@ import { BrowserRouter, Route, Routes } from 'react-router'
 import DashboardView from './features/dashboard/dashboard.view.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LoginView />} />
-        <Route path="/dashboard" element={<DashboardView />} />
-      </Routes>
-    </BrowserRouter>
-  </StrictMode>,
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<LoginView />} />
+      <Route path="/dashboard" element={<DashboardView />} />
+    </Routes>
+  </BrowserRouter>
 )

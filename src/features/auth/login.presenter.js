@@ -23,6 +23,7 @@ export function useLoginPresenter() {
 
         if (!email || !password) {
             setErrorMessage('Email dan password tidak boleh kosong.');
+            
             return;
         }
 
@@ -36,7 +37,6 @@ export function useLoginPresenter() {
                 pathname: '/dashboard'
             });
         } catch (error) {
-            console.error('Login Error:', error);
             setErrorMessage(error.message);
         } finally {
             setIsLoading(false);
