@@ -8,6 +8,7 @@ import { ROUTES } from './libs/routes.js'
 import AppLayout from './components/layout/app-layout.view.jsx'
 import ErrorBoundary from './components/error-boundary/error-boundary.view.jsx'
 import { AuthProvider } from './components/layout/AuthContext.jsx'
+import UsersView from './features/users/users.view.jsx'
 
 const router = createBrowserRouter([
   {
@@ -30,9 +31,18 @@ const router = createBrowserRouter([
             element: <AppLayout />,
             children: [
               {
-                path: ROUTES.DASHBOARD,
-                element: <DashboardView />,
-              },
+                errorElement: <ErrorBoundary />,
+                children: [
+                  {
+                    path: ROUTES.DASHBOARD,
+                    element: <DashboardView />,
+                  },
+                  {
+                    path: ROUTES.USERS,
+                    element: <UsersView />,
+                  }
+                ]
+              }
             ],
           },
         ],
