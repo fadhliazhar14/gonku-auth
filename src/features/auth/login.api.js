@@ -1,7 +1,7 @@
-const BASE_URL = '/api';
+import { API_BASE_URL } from "../../libs/constants";
 
 export async function loginUser(email, password) {
-    const response = await fetch(`${BASE_URL}/auth/signin`, {
+    const response = await fetch(`${API_BASE_URL.AUTH}/signin`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

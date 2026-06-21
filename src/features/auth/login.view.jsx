@@ -4,13 +4,11 @@ import ErrorMessage from "../../components/utilities/ErrorMessage";
 
 export default function LoginView() {
     const {
-        email,
-        password,
+        formData,
         isLoading,
         errorMessage,
-        handleEmailChange,
-        handlePasswordChange,
-        handleSubmit
+        handleChange,
+        handleLogin,
     } = useLoginPresenter();
 
     return (
@@ -33,8 +31,9 @@ export default function LoginView() {
                                     <input
                                         type="email"
                                         id="us_email"
-                                        value={email}
-                                        onChange={handleEmailChange}
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
                                         className="block w-full rounded-md bg-white/5 outline-1 -outline-offset-1 outline-white/10 py-1.5 px-3 text-white shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none sm:text-sm" />
                                 </div>
                             </div>
@@ -46,15 +45,16 @@ export default function LoginView() {
                                     <input
                                         type="password"
                                         id="us_password"
-                                        value={password}
-                                        onChange={handlePasswordChange}
+                                        name="password"
+                                        value={formData.password}
+                                        onChange={handleChange}
                                         className="block w-full rounded-md bg-white/5 outline-1 -outline-offset-1 outline-white/10 py-1.5 px-3 text-white shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none sm:text-sm" />
                                 </div>
                             </div>
 
                             <div className="mt-6">
                                 <ButtonLoading
-                                    onClick={handleSubmit}
+                                    onClick={handleLogin}
                                     isLoading={isLoading}
                                     isShowLabelOnLoading={true}
                                     style={"w-full"}>

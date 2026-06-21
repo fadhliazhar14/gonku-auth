@@ -1,29 +1,28 @@
-// src/features/auth/login.presenter.js
 import { useState } from "react";
 import { loginUser } from "./login.api";
 import { useNavigate } from "react-router";
+import { useAuth } from "../../components/layout/AuthContext";
+import { userSchema } from "../../types/user";
 
 export function useLoginPresenter() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [formData, setFormData] = useState({ email: '', password: '' });
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
+    const { setLoginSession } = useAuth();
     const navigate = useNavigate();
 
-    function handleEmailChange(e) {
-        setEmail(e.target.value);
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
     }
 
-    function handlePasswordChange(e) {
-        setPassword(e.target.value);
-    }
-
-    async function handleSubmit(e) {
+    async function handleLogin(e) {
         e.preventDefault();
+
+        const { email, password } = formData;
 
         if (!email || !password) {
             setErrorMessage('Email dan password tidak boleh kosong.');
-            
             return;
         }
 
@@ -31,12 +30,18 @@ export function useLoginPresenter() {
         setErrorMessage(null);
 
         try {
-            await loginUser(email, password);
+            const loginResponse = await loginUser(email, password);
+            const user = userSchema.safeParse(loginResponse.data);
+
+            if (user.success) {
+                setLoginSession(user.data);
+            }
 
             navigate({
                 pathname: '/dashboard'
             });
         } catch (error) {
+            setFormData({ email: '', password: '' });
             setErrorMessage(error.message);
         } finally {
             setIsLoading(false);
@@ -44,12 +49,10 @@ export function useLoginPresenter() {
     }
 
     return {
-        email,
-        password,
+        formData,
         isLoading,
         errorMessage,
-        handleEmailChange,
-        handlePasswordChange,
-        handleSubmit
+        handleChange,
+        handleLogin
     };
 }
