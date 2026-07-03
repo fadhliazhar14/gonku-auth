@@ -2,8 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { ROUTES } from "../../libs/routes";
 import { getUserById, saveUser } from "./user-details.api";
-import { jsonDateToInputDate } from "../../libs/utils/date-formatter";
-import { UserDetailsModel } from "./user-details-model";
+import { UserDetailsSchema } from "./user-details-model";
 import { showToast } from "../../libs/utils/toast";
 
 export const useUserDetailsPresenter = ( id = 0 ) => {
@@ -53,36 +52,42 @@ export const useUserDetailsPresenter = ( id = 0 ) => {
         navigate({
             pathname: ROUTES.USERS
         });
-    });
+    }, [navigate]);
 
     const handleSaveUserDetails = useCallback(async (e) => {
         e.preventDefault();
 
-        const validationErrors = UserDetailsModel.validateAll(userDetails);
-        setFormErrors(validationErrors);
+        const result = UserDetailsSchema.safeParse(userDetails);
 
-        if (Object.keys(validationErrors).length === 0) {
-            setIsSubmitLoading(true);
-
-            try {
-                const response = await saveUser(id, userDetails.name, userDetails.username, userDetails.email);
-
-                setUserDetails(initialUserDetails);
-                setIsSubmitLoading(false);
-                setErrorMessage(null);
-                showToast.success("User details has been saved successfully");
-                handleNavigateToList();
-            } catch (error) {
-                setErrorMessage(error.message);
-            } finally {
-                setIsSubmitLoading(false);
-            }
+        if (!result.success) {
+            const validationErrors = {};
+            result.error.issues.forEach((issue) => {
+                const fieldName = issue.path[0];
+                if (fieldName && !validationErrors[fieldName]) {
+                    validationErrors[fieldName] = issue.message;
+                }
+            });
+            setFormErrors(validationErrors);
+            return;
         }
-    });
 
-    function validateUserDetails() {
-        
-    }
+        setFormErrors({});
+        setIsSubmitLoading(true);
+
+        try {
+            await saveUser(id, userDetails.name, userDetails.username, userDetails.email);
+
+            setUserDetails(initialUserDetails);
+            setIsSubmitLoading(false);
+            setErrorMessage(null);
+            showToast.success("User details has been saved successfully");
+            handleNavigateToList();
+        } catch (error) {
+            setErrorMessage(error.message);
+        } finally {
+            setIsSubmitLoading(false);
+        }
+    }, [id, userDetails, handleNavigateToList]);
 
     const widgets = Object.keys(userDetails).reduce((acc, fieldName) => {
         acc[fieldName] = {
