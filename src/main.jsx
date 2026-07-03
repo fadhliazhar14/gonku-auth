@@ -1,13 +1,13 @@
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import LoginView from './features/auth/login.view.jsx'
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router'
+import { createBrowserRouter, RouterProvider } from 'react-router'
 import DashboardView from './features/dashboard/dashboard.view.jsx'
 import RequireAuth from './components/layout/require-auth.jsx'
 import { ROUTES } from './libs/routes.js'
 import AppLayout from './components/layout/app-layout.view.jsx'
 import ErrorBoundary from './components/error-boundary/error-boundary.view.jsx'
-import { AuthProvider } from './components/layout/AuthContext.jsx'
+import RootLayout from './components/layout/root-layout.jsx'
 import UsersView from './features/users/users.view.jsx'
 import UserDetails from './features/user-details/user-details.view.jsx'
 import { ToastContainer } from 'react-toastify'
@@ -15,11 +15,7 @@ import 'react-toastify/ReactToastify.css'
 
 const router = createBrowserRouter([
   {
-    element: (
-      <AuthProvider>
-        <Outlet />
-      </AuthProvider>
-    ),
+    element: <RootLayout />,
     errorElement: <ErrorBoundary />,
     children: [
       {
