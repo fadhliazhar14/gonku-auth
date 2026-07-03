@@ -37,7 +37,8 @@ export function useLoginPresenter() {
 
         try {
             const loginResponse = await loginUser(formData.email, formData.password);
-            const user = userSchema.safeParse(loginResponse.data);
+            const rawUser = loginResponse?.data?.userData || loginResponse?.data || loginResponse;
+            const user = userSchema.safeParse(rawUser);
 
             if (user.success) {
                 setLoginSession(user.data);
