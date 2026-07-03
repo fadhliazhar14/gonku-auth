@@ -1,9 +1,10 @@
 import { useLocation } from "react-router";
-import { useAuth } from "../components/layout/AuthContext";
+import { useAuthStore } from "../store/useAuthStore";
 import { hasPermission } from "../libs/permission";
 
 export function usePermissions() {
-  const { user, isLoading } = useAuth();
+  const user = useAuthStore((state) => state.user);
+  const isLoading = useAuthStore((state) => state.isLoading);
   const location = useLocation();
 
   const checkPermission = (pathname) => {

@@ -1,8 +1,9 @@
 import { Navigate, Outlet } from "react-router";
-import { useAuth } from "./AuthContext";
+import { useAuthStore } from "../../store/useAuthStore";
 
 export default function RequireAuth() {
-  const { isAuthenticated, isLoading } = useAuth();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const isLoading = useAuthStore((state) => state.isLoading);
 
   if (isLoading) {
     return (

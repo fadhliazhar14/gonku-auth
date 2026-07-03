@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { loginUser } from "./login.api";
 import { useNavigate } from "react-router";
-import { useAuth } from "../../components/layout/AuthContext";
+import { useAuthStore } from "../../store/useAuthStore";
 import { userSchema } from "../../types/user";
 
 export function useLoginPresenter() {
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
-    const { setLoginSession } = useAuth();
+    const setLoginSession = useAuthStore((state) => state.setLoginSession);
     const navigate = useNavigate();
 
     function handleChange(e) {
