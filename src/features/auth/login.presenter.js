@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { loginUser } from "./login.api";
 import { useNavigate } from "react-router";
 import { useAuthStore } from "../../store/useAuthStore";
@@ -12,31 +13,13 @@ const loginSchema = z.object({
 
 export function useLoginPresenter() {
     const [formData, setFormData] = useState({ email: '', password: '' });
-    const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState(null);
     const setLoginSession = useAuthStore((state) => state.setLoginSession);
     const navigate = useNavigate();
 
-    function handleChange(e) {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    }
-
-    async function handleLogin(e) {
-        e.preventDefault();
-
-        const validation = loginSchema.safeParse(formData);
-        if (!validation.success) {
-            const firstError = validation.error.issues[0]?.message || 'Validasi gagal.';
-            setErrorMessage(firstError);
-            return;
-        }
-
-        setIsLoading(true);
-        setErrorMessage(null);
-
-        try {
-            const loginResponse = await loginUser(formData.email, formData.password);
+    const loginMutation = useMutation({
+        mutationFn: ({ email, password }) => loginUser(email, password),
+        onSuccess: (loginResponse) => {
             const rawUser = loginResponse?.data?.userData || loginResponse?.data || loginResponse;
             const user = userSchema.safeParse(rawUser);
 
@@ -48,19 +31,37 @@ export function useLoginPresenter() {
             } else {
                 setErrorMessage('Struktur data user dari server tidak valid.');
             }
-        } catch (error) {
+        },
+        onError: (error) => {
             setFormData({ email: '', password: '' });
             setErrorMessage(error.message);
-        } finally {
-            setIsLoading(false);
         }
+    });
+
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    }
+
+    function handleLogin(e) {
+        e.preventDefault();
+
+        const validation = loginSchema.safeParse(formData);
+        if (!validation.success) {
+            const firstError = validation.error.issues[0]?.message || 'Validasi gagal.';
+            setErrorMessage(firstError);
+            return;
+        }
+
+        setErrorMessage(null);
+        loginMutation.mutate({ email: formData.email, password: formData.password });
     }
 
     return {
         formData,
-        isLoading,
+        isLoading: loginMutation.isPending,
         errorMessage,
         handleChange,
         handleLogin
     };
-}
+}

@@ -12,6 +12,17 @@ import UsersView from './features/users/users.view.jsx'
 import UserDetails from './features/user-details/user-details.view.jsx'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/ReactToastify.css'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+})
 
 const router = createBrowserRouter([
   {
@@ -55,8 +66,10 @@ const router = createBrowserRouter([
 ])
 
 createRoot(document.getElementById('root')).render(
-  <>
+  <QueryClientProvider client={queryClient}>
     <RouterProvider router={router} />
     <ToastContainer />
-  </>
+    <ReactQueryDevtools initialIsOpen={false} />
+  </QueryClientProvider>
 )
+

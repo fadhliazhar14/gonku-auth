@@ -1,10 +1,7 @@
-import { useRef, useState } from "react";
 import { useUsersPresenter } from "./users.presenter";
 import TableLoading from "../../components/ui/table-loading";
 import Pagination from "../../components/ui/pagination";
 import { formatDate } from "../../libs/utils/date-formatter";
-import { Link, NavLink } from "react-router";
-import { ROUTES } from "../../libs/routes";
 import Modal from "../../components/ui/modal";
 import ActionButton from "../../components/utilities/action-button";
 import ErrorMessage from "../../components/utilities/error-message";
@@ -16,7 +13,6 @@ export default function UsersView() {
         errorMessage, 
         users, 
         pagination,
-        currentUserId,
         isToggle,
         searchVal,
         searchByVal,
