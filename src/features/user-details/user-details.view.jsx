@@ -1,5 +1,3 @@
-import { ChevronDownIcon } from "@heroicons/react/16/solid";
-import { UserCircleIcon, PhotoIcon } from "@heroicons/react/24/solid";
 import { useParams } from "react-router"
 import { jsonDateToInputDate } from "../../libs/utils/date-formatter";
 import userImage from "../../assets/user-details.png";
@@ -12,7 +10,6 @@ export default function UserDetails() {
     const {
         Form,
         isSubmitLoading,
-        isDataFetched,
         errorMessage,
         isFormDisabled,
         userDetails,
@@ -118,27 +115,6 @@ export default function UserDetails() {
                                         )}
                                     </div>
                                 </div>
-
-                                {
-                                    false && 
-                                    <div className="mt-4">
-                                        <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">
-                                            Password
-                                        </label>
-                                        <div className="mt-2">
-                                            <div className={inputWrapperStyle}>
-                                                <input
-                                                    id="password"
-                                                    name="password"
-                                                    type="password"
-                                                    placeholder="Input password.."
-                                                    className={inputStyle}
-                                                    onChange={handleFormChange}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
 
                                 {
                                     params.id > 0 &&

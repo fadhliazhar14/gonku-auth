@@ -14,9 +14,9 @@ export async function saveUser(id, name, username, email) {
     }
 }
 
-export async function getUserById(id) {
+export async function getUserById(id, signal) {
     try {
-        const response = await api.get(`/users/${id}`);
+        const response = await api.get(`/users/${id}`, { signal });
         return response.data;
     } catch (error) {
         const message = error.response?.data?.message || 'Failed to get user details';

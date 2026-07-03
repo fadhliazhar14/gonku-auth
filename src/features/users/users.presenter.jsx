@@ -1,4 +1,5 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useRef } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteUserById, getUsers } from "./users.api";
 import { useNavigate } from "react-router";
 import { showToast } from "../../libs/utils/toast";
@@ -6,17 +7,9 @@ import { userSchema } from "../../types/user";
 import { z } from "zod";
 
 export function useUsersPresenter() {
-    const [state, setState] = useState({
-        users: null,
-        isLoading: true,
-        errorMessage: null,
-        pagination: {
-            totalPages: 0,
-            totalElements: 0,
-            pageNumber: 0,
-            pageSize: 10
-        }
-    });
+    const queryClient = useQueryClient();
+    const navigate = useNavigate();
+
     const [queryParams, setQueryParams] = useState({
         page: 0,
         size: 10,
@@ -24,22 +17,14 @@ export function useUsersPresenter() {
         searchBy: ""
     });
     const [isToggle, setIsToggle] = useState(false);
-    const navigate = useNavigate();
     const currentUserId = useRef(null);
-    const abortControllerRef = useRef(null);
     const [searchVal, setSearchVal] = useState("");
     const [searchByVal, setSearchByVal] = useState("");
-    const load = useCallback(async () => {
-        if (abortControllerRef.current) {
-            abortControllerRef.current.abort();
-        }
 
-        abortControllerRef.current = new AbortController();
-        
-        setState(prev => ({ ...prev, isLoading: true, errorMessage: null }));
-
-        try {
-            const data = await getUsers(queryParams, abortControllerRef);
+    const usersQuery = useQuery({
+        queryKey: ["users", queryParams],
+        queryFn: async ({ signal }) => {
+            const data = await getUsers(queryParams, signal);
             const usersData = data?.data?.content;
 
             if (usersData === undefined) {
@@ -51,41 +36,26 @@ export function useUsersPresenter() {
                 throw new Error("Struktur data daftar user dari server tidak valid.");
             }
 
-            setState({
+            return {
                 users: parsedUsers.data,
-                isLoading: false,
-                errorMessage: null,
                 pagination: {
                     totalPages: data?.data?.totalPages || 0,
                     totalElements: data?.data?.totalElements || 0,
                     pageNumber: data?.data?.page ?? queryParams.page,
                     pageSize: data?.data?.size || 10
                 }
-            });
-        } catch (error) {
-            if (error.name !== 'AbortError') {
-                setState({
-                users: null,
-                isLoading: false,
-                errorMessage: error.message,
-                pagination: {
-                    totalPages: 0,
-                    totalElements: 0,
-                    pageNumber: 0,
-                    pageSize: 10
-                    }
-                });
-            }
+            };
         }
-    }, [queryParams]);
+    });
 
-    useEffect(() => {
-        load();
-
-        return () => {
-            abortControllerRef.current?.abort();
-        };
-    }, [queryParams, load]);
+    const deleteMutation = useMutation({
+        mutationFn: (userId) => deleteUserById(userId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["users"] });
+            setIsToggle(false);
+            showToast.success("User has been deactivated successfully");
+        }
+    });
 
     const handleSearch = useCallback((e) => {
         e.preventDefault();
@@ -100,30 +70,19 @@ export function useUsersPresenter() {
             search: searchVal,
             searchBy: searchByVal
         }));
-    });
+    }, [searchVal, searchByVal]);
 
     const handleSearchByChange = (value) => {
         setSearchByVal(value);
-    }
+    };
 
     const handleSearchValChange = (value) => {
         setSearchVal(value);
-    }
+    };
 
-    const handleDelete = async () => {
-        try {
-            setState(prev => ({...prev, isLoading: true, errorMessage: null}));
-            await deleteUserById(currentUserId.current);
-
-            await load();
-            
-            setIsToggle(false);
-            showToast.success("User has been deactivated successfully");
-            setState(prev => ({...prev, isLoading: false, errorMessage: null}));
-        } catch (error) {
-            setState(prev => ({...prev, isLoading: false, errorMessage: error.message}));
-        }
-    }
+    const handleDelete = useCallback(() => {
+        deleteMutation.mutate(currentUserId.current);
+    }, [deleteMutation]);
 
     const handlePageChange = useCallback((newPage) => {
         setQueryParams(prev => ({
@@ -136,15 +95,23 @@ export function useUsersPresenter() {
         navigate({
             pathname: `/user-details/${userId}`
         });
-    }, []);
+    }, [navigate]);
 
     const handleToggle = useCallback((userId) => {
-        setIsToggle(!isToggle);
+        setIsToggle(prev => !prev);
         currentUserId.current = userId;
-    });
+    }, []);
 
     return {
-        ...state,
+        users: usersQuery.data?.users ?? null,
+        isLoading: usersQuery.isLoading || deleteMutation.isPending,
+        errorMessage: usersQuery.error?.message || deleteMutation.error?.message || null,
+        pagination: usersQuery.data?.pagination ?? {
+            totalPages: 0,
+            totalElements: 0,
+            pageNumber: 0,
+            pageSize: 10
+        },
         queryParams,
         currentUserId,
         isToggle,

@@ -1,6 +1,6 @@
 import api from "../../libs/axios";
 
-export async function getUsers({ page = 0, size = 10, search = "", searchBy = "" } = {}, abortController) {
+export async function getUsers({ page = 0, size = 10, search = "", searchBy = "" } = {}, signal) {
     const params = new URLSearchParams();
     params.append("page", page.toString());
     params.append("size", size.toString());
@@ -12,8 +12,10 @@ export async function getUsers({ page = 0, size = 10, search = "", searchBy = ""
         params.append("searchBy", searchBy);
     }
 
+    const requestSignal = signal?.current?.signal || signal;
+
     const response = await api.get(`/users?${params.toString()}`, {
-        signal: abortController?.current?.signal,
+        signal: requestSignal,
     });
 
     return response.data;
