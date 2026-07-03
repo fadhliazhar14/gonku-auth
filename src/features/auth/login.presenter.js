@@ -3,6 +3,12 @@ import { loginUser } from "./login.api";
 import { useNavigate } from "react-router";
 import { useAuthStore } from "../../store/useAuthStore";
 import { userSchema } from "../../types/user";
+import { z } from "zod";
+
+const loginSchema = z.object({
+    email: z.string().min(1, "Email tidak boleh kosong").email("Format email tidak valid"),
+    password: z.string().min(1, "Password tidak boleh kosong")
+});
 
 export function useLoginPresenter() {
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -19,10 +25,10 @@ export function useLoginPresenter() {
     async function handleLogin(e) {
         e.preventDefault();
 
-        const { email, password } = formData;
-
-        if (!email || !password) {
-            setErrorMessage('Email dan password tidak boleh kosong.');
+        const validation = loginSchema.safeParse(formData);
+        if (!validation.success) {
+            const firstError = validation.error.issues[0]?.message || 'Validasi gagal.';
+            setErrorMessage(firstError);
             return;
         }
 
@@ -30,16 +36,17 @@ export function useLoginPresenter() {
         setErrorMessage(null);
 
         try {
-            const loginResponse = await loginUser(email, password);
+            const loginResponse = await loginUser(formData.email, formData.password);
             const user = userSchema.safeParse(loginResponse.data);
 
             if (user.success) {
                 setLoginSession(user.data);
+                navigate({
+                    pathname: '/dashboard'
+                });
+            } else {
+                setErrorMessage('Struktur data user dari server tidak valid.');
             }
-
-            navigate({
-                pathname: '/dashboard'
-            });
         } catch (error) {
             setFormData({ email: '', password: '' });
             setErrorMessage(error.message);
@@ -55,4 +62,4 @@ export function useLoginPresenter() {
         handleChange,
         handleLogin
     };
-}
+}

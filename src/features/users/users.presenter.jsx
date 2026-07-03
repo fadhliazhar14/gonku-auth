@@ -2,6 +2,8 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { deleteUserById, getUsers } from "./users.api";
 import { useNavigate } from "react-router";
 import { showToast } from "../../libs/utils/toast";
+import { userSchema } from "../../types/user";
+import { z } from "zod";
 
 export function useUsersPresenter() {
     const [state, setState] = useState({
@@ -44,8 +46,13 @@ export function useUsersPresenter() {
                 throw new Error("Struktur respons API tidak sesuai (Key 'content' tidak ditemukan)");
             }
 
+            const parsedUsers = z.array(userSchema.passthrough()).safeParse(usersData);
+            if (!parsedUsers.success) {
+                throw new Error("Struktur data daftar user dari server tidak valid.");
+            }
+
             setState({
-                users: usersData,
+                users: parsedUsers.data,
                 isLoading: false,
                 errorMessage: null,
                 pagination: {
@@ -106,7 +113,7 @@ export function useUsersPresenter() {
     const handleDelete = async () => {
         try {
             setState(prev => ({...prev, isLoading: true, errorMessage: null}));
-            const response = await deleteUserById(currentUserId.current);
+            await deleteUserById(currentUserId.current);
 
             await load();
             
