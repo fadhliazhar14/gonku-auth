@@ -1,19 +1,11 @@
-import { API_BASE_URL } from "../../libs/constants";
+import api from "../../libs/axios";
 
 export async function loginUser(email, password) {
-    const response = await fetch(`${API_BASE_URL.AUTH}/signin`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username: email, password }),
-        credentials: 'same-origin',
-    });
-
-    if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || 'Gagal login, periksa kembali email & password Anda.');
+    try {
+        const response = await api.post('/auth/signin', { username: email, password });
+        return response.data;
+    } catch (error) {
+        const message = error.response?.data?.message || 'Gagal login, periksa kembali email & password Anda.';
+        throw new Error(message, { cause: error });
     }
-
-    return response.json();
-}
+}
