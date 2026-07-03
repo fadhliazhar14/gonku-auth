@@ -8,3 +8,16 @@
   --color-slate-750: oklab(1 0 5.96046e-8 / 0.05);
   --color-slate-800: oklab(0.278 -0.00750866 -0.03213 / .5);
 }
+
+@layer base {
+
+  button,
+  [role="button"] {
+    @apply cursor-pointer;
+  }
+
+  /* Praktik terbaik: Ubah kursor jadi tanda silang/dilarang jika tombol sedang loading atau disabled */
+  button:disabled {
+    @apply cursor-not-allowed;
+  }
+}

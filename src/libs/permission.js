@@ -6,6 +6,7 @@ export const roleRoutePermissions = Object.freeze({
     ROUTES.ROOT,
     ROUTES.DASHBOARD,
     ROUTES.USERS,
+    ROUTES.USER_DETAILS,
     ROUTES.ROLES
   ]
 });

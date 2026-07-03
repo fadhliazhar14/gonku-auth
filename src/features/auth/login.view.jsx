@@ -1,6 +1,6 @@
+import ButtonLoading from "../../components/utilities/button-loading";
+import ErrorMessage from "../../components/utilities/error-message";
 import { useLoginPresenter } from "./login.presenter";
-import ButtonLoading from "../../components/utilities/ButtonLoading";
-import ErrorMessage from "../../components/utilities/ErrorMessage";
 
 export default function LoginView() {
     const {

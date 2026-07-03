@@ -5,7 +5,7 @@ export default function ButtonLoading({
     style = "",
     onClick
 }) {
-    const baseStyles = "cursor-pointer bg-indigo-500 px-3 py-2 hover:bg-indigo-600 flex items-center justify-center gap-2 rounded-md text-sm font-semibold transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:bg-white/70";
+    const baseStyles = "bg-indigo-500 px-3 py-2 hover:bg-indigo-600 flex items-center justify-center gap-2 rounded-md text-sm font-semibold transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed";
 
     return (
         <button
