@@ -1,5 +1,4 @@
-import { API_BASE_URL } from "../../libs/constants";
-import { fetchWithAuth } from "../../libs/fetchWithAuth";
+import api from "../../libs/axios";
 
 export async function getUsers({ page = 0, size = 10, search = "", searchBy = "" } = {}, abortController) {
     const params = new URLSearchParams();
@@ -13,32 +12,19 @@ export async function getUsers({ page = 0, size = 10, search = "", searchBy = ""
         params.append("searchBy", searchBy);
     }
 
-    const url = `${API_BASE_URL.USERS}?${params.toString()}`;
-    const response = await fetchWithAuth(url, {
-        signal: abortController.current.signal,
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        credentials: 'same-origin',
+    const response = await api.get(`/users?${params.toString()}`, {
+        signal: abortController?.current?.signal,
     });
 
-    return response.json();
+    return response.data;
 }
 
 export async function deleteUserById(id) {
-    if (id === (undefined || null || 0 || "0")) {
+    if (!id || id === 0 || id === "0") {
         throw new Error("Trying to delete user with null Id");
     }
 
-    const url = `${API_BASE_URL.USERS}/${id}`;
-    const response = await fetchWithAuth(url, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        credentials: 'same-origin',
-    });
+    const response = await api.delete(`/users/${id}`);
 
-    return response.json();
-}
+    return response.data;
+}

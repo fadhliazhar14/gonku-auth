@@ -1,6 +1,5 @@
 import { create } from 'zustand';
-import { API_BASE_URL } from '../libs/constants';
-import { fetchWithAuth } from '../libs/fetchWithAuth';
+import api from '../libs/axios';
 import { userSchema } from '../types/user';
 
 export const useAuthStore = create((set) => ({
@@ -10,18 +9,13 @@ export const useAuthStore = create((set) => ({
 
   fetchUserSession: async () => {
     try {
-      const response = await fetchWithAuth(API_BASE_URL.AUTH + '/me');
-      if (response.ok) {
-        const data = await response.json();
-        const parsedUser = userSchema.safeParse(data.data.userData).data;
-        set({
-          isAuthenticated: true,
-          user: parsedUser,
-          isLoading: false,
-        });
-      } else {
-        throw new Error('Unauthorized');
-      }
+      const response = await api.get('/auth/me');
+      const parsedUser = userSchema.safeParse(response.data.data.userData).data;
+      set({
+        isAuthenticated: true,
+        user: parsedUser,
+        isLoading: false,
+      });
     } catch (error) {
       set({ isAuthenticated: false, user: null, isLoading: false });
       console.error(error);
@@ -30,10 +24,7 @@ export const useAuthStore = create((set) => ({
 
   logout: async () => {
     try {
-      await fetch(API_BASE_URL.AUTH + '/signout', {
-        method: 'POST',
-        credentials: 'same-origin',
-      });
+      await api.post('/auth/signout');
     } catch (error) {
       throw new Error("Logout failed", { cause: error });
     } finally {

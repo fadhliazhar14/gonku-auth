@@ -1,39 +1,26 @@
-import { API_BASE_URL } from "../../libs/constants";
-import { fetchWithAuth } from "../../libs/fetchWithAuth";
+import api from "../../libs/axios";
 
 export async function saveUser(id, name, username, email) {
-    const isNewUser = !id || id === 0 || id === "0"; 
-    const url = isNewUser ? API_BASE_URL.USERS : `${API_BASE_URL.USERS}/${id}`
-    const response = await fetchWithAuth(url, {
-        method: isNewUser ? 'POST' : 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, username, email}),
-        credentials: 'same-origin',
-    });
-
-    if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || 'Failed to save user details');
+    const isNewUser = !id || id === 0 || id === "0";
+    const url = isNewUser ? '/users' : `/users/${id}`;
+    try {
+        const response = isNewUser
+            ? await api.post(url, { name, username, email })
+            : await api.put(url, { name, username, email });
+        return response.data;
+    } catch (error) {
+        const message = error.response?.data?.message || 'Failed to save user details';
+        throw new Error(message, { cause: error });
     }
-
-    return response.json();
 }
 
 export async function getUserById(id) {
-    const response = await fetchWithAuth(`${API_BASE_URL.USERS}/${id}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        credentials: 'same-origin',
-    });
-
-    if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || 'Failed to get user details');
+    try {
+        const response = await api.get(`/users/${id}`);
+        return response.data;
+    } catch (error) {
+        const message = error.response?.data?.message || 'Failed to get user details';
+        throw new Error(message, { cause: error });
     }
-
-    return response.json();
 }
+
