@@ -6,7 +6,7 @@ import { userSchema } from "../../types/user";
 import { z } from "zod";
 
 const loginSchema = z.object({
-    email: z.string().min(1, "Email tidak boleh kosong").email("Format email tidak valid"),
+    email: z.string().min(1, "Email tidak boleh kosong"),
     password: z.string().min(1, "Password tidak boleh kosong")
 });
 
