@@ -9,6 +9,9 @@ import AppLayout from './components/layout/app-layout.view.jsx'
 import ErrorBoundary from './components/error-boundary/error-boundary.view.jsx'
 import { AuthProvider } from './components/layout/AuthContext.jsx'
 import UsersView from './features/users/users.view.jsx'
+import UserDetails from './features/user-details/user-details.view.jsx'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/ReactToastify.css'
 
 const router = createBrowserRouter([
   {
@@ -35,16 +38,20 @@ const router = createBrowserRouter([
                 children: [
                   {
                     path: ROUTES.DASHBOARD,
-                    element: <DashboardView />,
+                    element: <DashboardView />
                   },
                   {
                     path: ROUTES.USERS,
-                    element: <UsersView />,
+                    element: <UsersView />
+                  },
+                  {
+                    path: ROUTES.USER_DETAILS,
+                    element: <UserDetails />
                   }
                 ]
               }
             ],
-          },
+          }
         ],
       },
     ],
@@ -52,5 +59,8 @@ const router = createBrowserRouter([
 ])
 
 createRoot(document.getElementById('root')).render(
-  <RouterProvider router={router} />
+  <>
+    <RouterProvider router={router} />
+    <ToastContainer />
+  </>
 )

@@ -20,7 +20,7 @@ export default function Sidebar({ user, onLogout }) {
   };
 
   return (
-    <aside className="w-64 bg-gray-900 text-gray-100 flex flex-col h-screen border-r border-gray-800">
+    <aside className="sticky top-0 w-64 bg-gray-900 text-gray-100 flex flex-col h-screen border-r border-gray-800">
       <div className="p-6 border-b border-gray-800 flex items-center gap-3">
         <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white shadow-md shadow-indigo-500/20">
           G
