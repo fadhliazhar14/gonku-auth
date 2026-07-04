@@ -32,7 +32,7 @@ export default function LoginView() {
                                 error={errors?.email}
                                 labelClassName="block text-sm/6 font-medium text-white"
                                 errorClassName="mt-1 text-xs text-red-400"
-                                className="block w-full rounded-md bg-white/5 outline-1 -outline-offset-1 outline-white/10 py-1.5 px-3 text-white shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none sm:text-sm"
+                                styleClasses="block w-full rounded-md bg-white/5 outline-1 -outline-offset-1 outline-white/10 py-1.5 px-3 text-white shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none sm:text-sm"
                             />
 
                             <Input
@@ -44,7 +44,7 @@ export default function LoginView() {
                                 error={errors?.password}
                                 labelClassName="block text-sm/6 font-medium text-white"
                                 errorClassName="mt-1 text-xs text-red-400"
-                                className="block w-full rounded-md bg-white/5 outline-1 -outline-offset-1 outline-white/10 py-1.5 px-3 text-white shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none sm:text-sm"
+                                styleClasses="block w-full rounded-md bg-white/5 outline-1 -outline-offset-1 outline-white/10 py-1.5 px-3 text-white shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none sm:text-sm"
                             />
 
                             <div className="mt-6">
