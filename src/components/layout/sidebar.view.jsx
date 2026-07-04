@@ -1,6 +1,7 @@
 import { NavLink } from "react-router";
 import { ROUTES } from "../../libs/routes";
 import { Squares2X2Icon, UserGroupIcon } from "@heroicons/react/24/outline";
+import Button from "../forms/button";
 
 const getNavLinkClass = ({ isActive }) =>
   `flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${isActive
@@ -54,9 +55,10 @@ export default function Sidebar({ user, onLogout }) {
           </div>
         )}
 
-        <button
-          onClick={onLogout}
-          className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:bg-red-500/10 hover:text-red-400 transition-all duration-200 cursor-pointer"
+        <Button
+          handlerOnClick={onLogout}
+          isFormDefault={false}
+          styleClasses="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:bg-red-500/10 hover:text-red-400 transition-all duration-200 cursor-pointer"
         >
           <svg
             className="w-5 h-5"
@@ -72,7 +74,7 @@ export default function Sidebar({ user, onLogout }) {
             />
           </svg>
           Logout
-        </button>
+        </Button>
       </div>
     </aside>
   );

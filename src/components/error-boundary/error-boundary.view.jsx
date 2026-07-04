@@ -1,4 +1,5 @@
 import { useRouteError } from "react-router";
+import Button from "../forms/button";
 
 export default function ErrorBoundary() {
   const error = useRouteError();
@@ -28,12 +29,13 @@ export default function ErrorBoundary() {
         it.
       </p>
 
-      <button
-        onClick={() => window.location.reload()}
-        className="px-6 py-2 bg-[#0040C1] text-white font-medium rounded-lg hover:bg-[#0035A1] transition-colors shadow-sm"
+      <Button
+        handlerOnClick={() => window.location.reload()}
+        isFormDefault={false}
+        styleClasses="px-6 py-2 bg-[#0040C1] text-white font-medium rounded-lg hover:bg-[#0035A1] transition-colors shadow-sm"
       >
         Refresh Page
-      </button>
+      </Button>
 
       <details className="mt-8 text-left w-full max-w-2xl bg-white p-4 rounded border border-red-100 text-xs overflow-auto">
         <summary className="cursor-pointer font-semibold text-red-700 mb-2">

@@ -5,6 +5,7 @@ import Modal from "../../components/ui/modal";
 import ActionButton from "../../components/utilities/action-button";
 import ErrorMessage from "../../components/utilities/error-message";
 import Input from "../../components/forms/input";
+import Button from "../../components/forms/button";
 import { useUsersPresenter } from "./users.presenter";
 
 
@@ -60,16 +61,17 @@ export default function UsersView() {
                         className="w-md rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 bg-white focus:outline-hidden focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                     />
 
-                    <button
-                        type="submit"
-                        className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    <Button
+                        isFormDefault={true}
+                        styleClasses="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >Search
-                    </button>
-                    <button
-                        onClick={() => handleNavigateToDetail(0)}
-                        className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    </Button>
+                    <Button
+                        isFormDefault={false}
+                        handlerOnClick={() => handleNavigateToDetail(0)}
+                        styleClasses="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >Add
-                    </button>
+                    </Button>
                 </div>
             </form>
 
