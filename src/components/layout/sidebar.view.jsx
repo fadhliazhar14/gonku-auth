@@ -1,5 +1,5 @@
 import { NavLink } from "react-router";
-import { ROUTES } from "../../libs/routes";
+import { ROUTES } from "../../constants/routes";
 import { Squares2X2Icon, UserGroupIcon } from "@heroicons/react/24/outline";
 import Button from "../forms/button";
 

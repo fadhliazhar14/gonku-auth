@@ -3,9 +3,9 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ROUTES } from "../../libs/routes";
+import { ROUTES } from "../../constants/routes";
 import { getUserById, saveUser } from "./user-details.api";
-import { UserDetailsSchema } from "./user-details-model";
+import { UserDetailsSchema } from "./user-details-schema";
 import { showToast } from "../../libs/utils/toast";
 
 export const useUserDetailsPresenter = (id = 0) => {
