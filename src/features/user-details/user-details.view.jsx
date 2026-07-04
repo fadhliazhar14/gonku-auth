@@ -3,7 +3,7 @@ import { jsonDateToInputDate } from "../../libs/utils/date-formatter";
 import userImage from "../../assets/user-details.png";
 import ButtonLoading from "../../components/utilities/button-loading";
 import ErrorMessage from "../../components/utilities/error-message";
-import { useUserDetailsPresenter } from "./user-details-presenter";
+import { useUserDetailsPresenter } from "./user-details.presenter";
 
 export default function UserDetails() {
     const params = useParams();
