@@ -1,4 +1,5 @@
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/20/solid';
+import Button from '../forms/button';
 
 export default function ActionButton({
   variant = 'edit',
@@ -25,13 +26,13 @@ export default function ActionButton({
   const Icon = config.icon;
 
   return (
-    <button
-      type="button"
-      className={`ml-2 inline-flex items-center justify-center gap-2 px-2.5 py-1.5 text-xs font-extrabold rounded-lg transition-all duration-150 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none ${config[appearance]} ${className}`}
-      onClick={handleClick}
+    <Button
+      isFormDefault={false}
+      handlerOnClick={handleClick}
+      styleClasses={`ml-2 inline-flex items-center justify-center gap-2 px-2.5 py-1.5 text-xs font-extrabold rounded-lg transition-all duration-150 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none ${config[appearance]} ${className}`}
     >
       <Icon className="size-4 shrink-0" aria-hidden="true" />
       <span>{children || config.label}</span>
-    </button>
+    </Button>
   );
 }

@@ -1,19 +1,23 @@
+import Button from "../forms/button";
+
 export default function ButtonLoading({
     children,
     isLoading = false,
     isShowLabelOnLoading = false,
     style = "",
     onClick,
-    disabled = false
+    disabled = false,
+    isFormDefault = false
 }) {
     const baseStyles = "bg-indigo-500 px-3 py-2 hover:bg-indigo-600 flex items-center justify-center gap-2 rounded-md text-sm font-semibold transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed";
 
     return (
-        <button
-            onClick={onClick}
-            disabled={isLoading || disabled}
-            className={`${baseStyles} ${style}`}
-            >
+        <Button
+            handlerOnClick={onClick}
+            enabled={!(isLoading || disabled)}
+            isFormDefault={isFormDefault}
+            styleClasses={`${baseStyles} ${style}`}
+        >
             {isLoading && (
                  <svg
                     className="animate-spin h-5 w-5 text-white"
@@ -26,6 +30,6 @@ export default function ButtonLoading({
                 </svg>
             )}
             <span className="text-white">{isLoading ? (isShowLabelOnLoading ? children : '') : children}</span>
-        </button>
+        </Button>
     )
 }

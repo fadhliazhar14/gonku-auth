@@ -1,6 +1,7 @@
 import { useParams } from "react-router"
 import { jsonDateToInputDate } from "../../libs/utils/date-formatter";
 import userImage from "../../assets/user-details.png";
+import Button from "../../components/forms/button";
 import ButtonLoading from "../../components/utilities/button-loading";
 import ErrorMessage from "../../components/utilities/error-message";
 import Input from "../../components/forms/input";
@@ -97,12 +98,12 @@ export default function UserDetails() {
                             </div>
 
                             <div className="mt-4 w-full flex justify-end">
-                                <button
-                                    onClick={handleNavigateToList}
-                                    type="button"
-                                    className={`mr-3 inline-flex items-center justify-center rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${buttonDisabled}`}
-                                    disabled={isSubmitLoading}
-                                >Cancel</button>
+                                <Button
+                                    handlerOnClick={handleNavigateToList}
+                                    isFormDefault={false}
+                                    enabled={!isSubmitLoading}
+                                    styleClasses={`mr-3 inline-flex items-center justify-center rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${buttonDisabled}`}
+                                >Cancel</Button>
                                 <ButtonLoading
                                     onClick={handleSaveUserDetails}
                                     isLoading={isSubmitLoading}
