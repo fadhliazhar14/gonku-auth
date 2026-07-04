@@ -15,6 +15,7 @@ export default function UserDetails() {
         errorMessage,
         isFormDisabled,
         userDetails,
+        isDataFetched,
         handleNavigateToList,
         handleSaveUserDetails,
     } = useUserDetailsPresenter(params.id);
@@ -24,6 +25,14 @@ export default function UserDetails() {
     const inputWrapperErrorStyle = `${inputWrapperStyle} outline-red-600`;
     const inputStyle = "block min-w-0 grow bg-white py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6 disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none";
     const buttonDisabled = "disabled:bg-gray-400 disabled:opacity-100 disabled:cursor-not-allowed";
+
+    if (params.id > 0 && !isDataFetched) {
+        return (
+            <div className="flex flex-1 items-center justify-center p-8 bg-white">
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-600"></div>
+            </div>
+        );
+    }
 
     return (
         <div className="p-6 max-w-7xl mx-auto">

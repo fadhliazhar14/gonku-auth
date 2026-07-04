@@ -30,6 +30,13 @@ export const useUserDetailsPresenter = (id = 0) => {
         formState: { errors, isDirty }
     } = useForm({
         resolver: zodResolver(UserDetailsSchema),
+        defaultValues: {
+            username: "",
+            name: "",
+            email: "",
+            password: "",
+            createdAt: ""
+        },
         values: {
             username: userQuery.data?.username || "",
             name: userQuery.data?.name || "",
@@ -37,6 +44,7 @@ export const useUserDetailsPresenter = (id = 0) => {
             createdAt: userQuery.data?.createdAt || ""
         }
     });
+
 
     const handleNavigateToList = useCallback(() => {
         navigate({
