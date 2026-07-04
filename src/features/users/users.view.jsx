@@ -1,10 +1,10 @@
-import { useUsersPresenter } from "./users.presenter";
 import TableLoading from "../../components/ui/table-loading";
 import Pagination from "../../components/ui/pagination";
 import { formatDate } from "../../libs/utils/date-formatter";
 import Modal from "../../components/ui/modal";
 import ActionButton from "../../components/utilities/action-button";
 import ErrorMessage from "../../components/utilities/error-message";
+import { useUsersPresenter } from "./users.presenter";
 
 
 export default function UsersView() {
