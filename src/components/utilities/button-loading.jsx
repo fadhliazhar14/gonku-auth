@@ -3,14 +3,15 @@ export default function ButtonLoading({
     isLoading = false,
     isShowLabelOnLoading = false,
     style = "",
-    onClick
+    onClick,
+    disabled = false
 }) {
     const baseStyles = "bg-indigo-500 px-3 py-2 hover:bg-indigo-600 flex items-center justify-center gap-2 rounded-md text-sm font-semibold transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed";
 
     return (
         <button
             onClick={onClick}
-            disabled={isLoading}
+            disabled={isLoading || disabled}
             className={`${baseStyles} ${style}`}
             >
             {isLoading && (

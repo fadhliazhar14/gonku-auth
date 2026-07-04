@@ -4,10 +4,10 @@ import { useLoginPresenter } from "./login.presenter";
 
 export default function LoginView() {
     const {
-        formData,
+        register,
+        errors,
         isLoading,
         errorMessage,
-        handleChange,
         handleLogin,
     } = useLoginPresenter();
 
@@ -20,7 +20,7 @@ export default function LoginView() {
 
                 <div className="w-full flex justify-center">
                     <div className="w-full max-w-md bg-slate-800 border border-slate-700 p-8 rounded-md mt-8">
-                        <form>
+                        <form onSubmit={handleLogin}>
                             <ErrorMessage message={errorMessage} />
 
                             <div>
@@ -31,11 +31,12 @@ export default function LoginView() {
                                     <input
                                         type="email"
                                         id="us_email"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleChange}
+                                        {...register("email")}
                                         className="block w-full rounded-md bg-white/5 outline-1 -outline-offset-1 outline-white/10 py-1.5 px-3 text-white shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none sm:text-sm" />
                                 </div>
+                                {errors?.email && (
+                                    <p className="mt-1 text-xs text-red-400">{errors.email.message}</p>
+                                )}
                             </div>
                             <div className="mt-6">
                                 <label htmlFor="us_password" className="block text-sm/6 font-medium text-white">
@@ -45,11 +46,12 @@ export default function LoginView() {
                                     <input
                                         type="password"
                                         id="us_password"
-                                        name="password"
-                                        value={formData.password}
-                                        onChange={handleChange}
+                                        {...register("password")}
                                         className="block w-full rounded-md bg-white/5 outline-1 -outline-offset-1 outline-white/10 py-1.5 px-3 text-white shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none sm:text-sm" />
                                 </div>
+                                {errors?.password && (
+                                    <p className="mt-1 text-xs text-red-400">{errors.password.message}</p>
+                                )}
                             </div>
 
                             <div className="mt-6">

@@ -1,27 +1,18 @@
 import { useCallback, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { ROUTES } from "../../libs/routes";
 import { getUserById, saveUser } from "./user-details.api";
 import { UserDetailsSchema } from "./user-details-model";
 import { showToast } from "../../libs/utils/toast";
 
 export const useUserDetailsPresenter = (id = 0) => {
-    const initialUserDetails = {
-        username: "",
-        name: "",
-        email: "",
-        password: "",
-        createdAt: ""
-    };
-
     const queryClient = useQueryClient();
     const navigate = useNavigate();
 
     const [errorMessage, setErrorMessage] = useState(null);
-    const [formErrors, setFormErrors] = useState({});
-    const [formState, setFormState] = useState(null);
-
     const isEditMode = Number(id) > 0;
 
     const userQuery = useQuery({
@@ -33,7 +24,19 @@ export const useUserDetailsPresenter = (id = 0) => {
         enabled: isEditMode
     });
 
-    const userDetails = formState ?? userQuery.data ?? initialUserDetails;
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isDirty }
+    } = useForm({
+        resolver: zodResolver(UserDetailsSchema),
+        values: {
+            username: userQuery.data?.username || "",
+            name: userQuery.data?.name || "",
+            email: userQuery.data?.email || "",
+            createdAt: userQuery.data?.createdAt || ""
+        }
+    });
 
     const handleNavigateToList = useCallback(() => {
         navigate({
@@ -48,7 +51,6 @@ export const useUserDetailsPresenter = (id = 0) => {
             if (isEditMode) {
                 queryClient.invalidateQueries({ queryKey: ["user", id] });
             }
-            setFormState(null);
             setErrorMessage(null);
             showToast.success("User details has been saved successfully");
             handleNavigateToList();
@@ -58,59 +60,23 @@ export const useUserDetailsPresenter = (id = 0) => {
         }
     });
 
-    function handleFormChange(e) {
-        const { name, value } = e.target;
-        setFormState(prev => ({ ...(prev ?? userDetails), [name]: value }));
-    }
-
-    const handleSaveUserDetails = useCallback(async (e) => {
-        e.preventDefault();
-
-        const result = UserDetailsSchema.safeParse(userDetails);
-
-        if (!result.success) {
-            const validationErrors = {};
-            result.error.issues.forEach((issue) => {
-                const fieldName = issue.path[0];
-                if (fieldName && !validationErrors[fieldName]) {
-                    validationErrors[fieldName] = issue.message;
-                }
-            });
-            setFormErrors(validationErrors);
-            return;
-        }
-
-        setFormErrors({});
+    const handleSaveUserDetails = handleSubmit((data) => {
         setErrorMessage(null);
-        saveMutation.mutate(userDetails);
-    }, [userDetails, saveMutation]);
-
-    const widgets = Object.keys(userDetails).reduce((acc, fieldName) => {
-        acc[fieldName] = {
-            value: userDetails[fieldName] || "",
-            Valid: !formErrors[fieldName],
-            Message: formErrors[fieldName] || "",
-        };
-
-        return acc;
-    }, {});
-
-    const FormWidget = {
-        Valid: Object.values(formErrors).every((msg) => msg === ""),
-        Widget: widgets
-    };
+        saveMutation.mutate(data);
+    });
 
     const isDataFetched = isEditMode ? !userQuery.isLoading : true;
 
     return {
-        Form: FormWidget,
+        register,
+        errors,
+        isDirty,
         isSubmitLoading: saveMutation.isPending,
         isDataFetched,
         errorMessage: userQuery.error?.message || errorMessage,
         isFormDisabled: saveMutation.isPending || !isDataFetched,
-        userDetails,
+        userDetails: userQuery.data || {},
         handleNavigateToList,
-        handleFormChange,
         handleSaveUserDetails
     };
 };
