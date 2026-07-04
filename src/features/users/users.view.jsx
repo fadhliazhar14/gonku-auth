@@ -58,7 +58,7 @@ export default function UsersView() {
                         placeholder={`Search by ${searchByVal}...`}
                         value={searchVal}
                         onChange={(e) => handleSearchValChange(e.target.value)}
-                        className="w-md rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-400 bg-white focus:outline-hidden focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        className="w-md"
                     />
 
                     <Button
