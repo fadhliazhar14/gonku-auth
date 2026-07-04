@@ -1,5 +1,5 @@
-import { ROUTES } from "./routes";
-import { USER_ROLES } from "./user_roles";
+import { ROUTES } from "../constants/routes";
+import { USER_ROLES } from "../constants/roles";
 
 export const roleRoutePermissions = Object.freeze({
   [USER_ROLES.ADMIN]: [

@@ -5,13 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginUser } from "./login.api";
 import { useNavigate } from "react-router";
 import { useAuthStore } from "../../store/useAuthStore";
-import { userSchema } from "../../types/user";
-import { z } from "zod";
-
-const loginSchema = z.object({
-    email: z.string().min(1, "Email tidak boleh kosong"),
-    password: z.string().min(1, "Password tidak boleh kosong")
-});
+import { userSchema } from "../../types/user-schema";
+import { loginSchema } from "./login-schema";
 
 export function useLoginPresenter() {
     const [errorMessage, setErrorMessage] = useState(null);
