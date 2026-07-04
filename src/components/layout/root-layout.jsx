@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router';
-import { useAuthStore } from '../../store/useAuthStore';
+import { useAuthStore } from '../../hooks/useAuthStore';
 
 export default function RootLayout() {
   const location = useLocation();

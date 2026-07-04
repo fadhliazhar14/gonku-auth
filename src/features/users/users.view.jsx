@@ -1,9 +1,9 @@
 import TableLoading from "../../components/ui/table-loading";
 import Pagination from "../../components/ui/pagination";
-import { formatDate } from "../../libs/utils/date-formatter";
+import { formatDate } from "../../utils/date-formatter";
 import Modal from "../../components/ui/modal";
-import ActionButton from "../../components/utilities/action-button";
-import ErrorMessage from "../../components/utilities/error-message";
+import ActionButton from "../../components/ui/action-button";
+import ErrorMessage from "../../components/ui/error-message";
 import Input from "../../components/forms/input";
 import Button from "../../components/forms/button";
 import ScreenLayout from "../../components/layout/screen-layout.view";

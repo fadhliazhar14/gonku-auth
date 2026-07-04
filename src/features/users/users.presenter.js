@@ -2,8 +2,8 @@ import { useState, useCallback, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteUserById, getUsers } from "./users.api";
 import { useNavigate } from "react-router";
-import { showToast } from "../../libs/utils/toast";
-import { userSchema } from "../../types/user-schema";
+import { showToast } from "../../utils/toast";
+import { userSchema } from "../../schemas/user.schema";
 import { z } from "zod";
 
 export function useUsersPresenter() {

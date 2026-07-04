@@ -4,9 +4,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginUser } from "./login.api";
 import { useNavigate } from "react-router";
-import { useAuthStore } from "../../store/useAuthStore";
-import { userSchema } from "../../types/user-schema";
-import { loginSchema } from "./login-schema";
+import { useAuthStore } from "../../hooks/useAuthStore";
+import { userSchema } from "../../schemas/user.schema";
+import { loginSchema } from "../../schemas/login.schema";
 
 export function useLoginPresenter() {
     const [errorMessage, setErrorMessage] = useState(null);

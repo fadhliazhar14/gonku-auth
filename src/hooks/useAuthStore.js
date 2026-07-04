@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import api from '../libs/axios';
-import { userSchema } from '../types/user-schema';
+import { userSchema } from '../schemas/user.schema';
 
 export const useAuthStore = create((set) => ({
   isAuthenticated: false,
