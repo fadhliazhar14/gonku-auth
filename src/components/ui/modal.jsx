@@ -1,5 +1,6 @@
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import Button from '../forms/button'
 
 export default function Modal({title, children, isOpen, handleClose, handleAction, actionButtonLabel = "Yes", closeButtonLabel = "Close"}) {
 
@@ -33,21 +34,21 @@ export default function Modal({title, children, isOpen, handleClose, handleActio
                 </div>
               </div>
               <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                <button
-                  type="button"
-                  onClick={handleAction}
-                  className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto"
+                <Button
+                  isFormDefault={false}
+                  handlerOnClick={handleAction}
+                  styleClasses="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto"
                 >
                   {actionButtonLabel}
-                </button>
-                <button
-                  type="button"
-                  data-autofocus
-                  onClick={handleClose}
-                  className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                </Button>
+                <Button
+                  isFormDefault={false}
+                  attributes={{ "data-autofocus": true }}
+                  handlerOnClick={handleClose}
+                  styleClasses="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
                 >
                   {closeButtonLabel}
-                </button>
+                </Button>
               </div>
             </DialogPanel>
           </div>
