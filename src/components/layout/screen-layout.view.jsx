@@ -1,15 +1,17 @@
 export default function ScreenLayout({
-  titlePlaceholder,
+  title,
+  description,
   actionPlaceholder,
   children
 }) {
   return (
     <div className="p-6 max-w-7xl mx-auto w-full">
-      {(titlePlaceholder || actionPlaceholder) && (
+      {(title || description || actionPlaceholder) && (
         <div className="sm:flex sm:items-center sm:justify-between mb-6">
-          {titlePlaceholder && (
+          {(title || description) && (
             <div>
-              {titlePlaceholder}
+              {title && <h1 className="text-2xl font-bold text-gray-900">{title}</h1>}
+              {description && <p className="mt-1 text-sm text-gray-500">{description}</p>}
             </div>
           )}
           {actionPlaceholder && (
