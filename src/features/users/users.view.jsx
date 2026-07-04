@@ -4,6 +4,7 @@ import { formatDate } from "../../libs/utils/date-formatter";
 import Modal from "../../components/ui/modal";
 import ActionButton from "../../components/utilities/action-button";
 import ErrorMessage from "../../components/utilities/error-message";
+import Input from "../../components/forms/input";
 import { useUsersPresenter } from "./users.presenter";
 
 
@@ -51,7 +52,7 @@ export default function UsersView() {
                         <option value="username">Username</option>
                         <option value="email">Email</option>
                     </select>
-                    <input
+                    <Input
                         type="text"
                         placeholder={`Search by ${searchByVal}...`}
                         value={searchVal}

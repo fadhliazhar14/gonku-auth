@@ -1,5 +1,6 @@
 import ButtonLoading from "../../components/utilities/button-loading";
 import ErrorMessage from "../../components/utilities/error-message";
+import Input from "../../components/forms/input";
 import { useLoginPresenter } from "./login.presenter";
 
 export default function LoginView() {
@@ -23,36 +24,28 @@ export default function LoginView() {
                         <form onSubmit={handleLogin}>
                             <ErrorMessage message={errorMessage} />
 
-                            <div>
-                                <label htmlFor="us_email" className="block text-sm/6 font-medium text-white">
-                                    Email address
-                                </label>
-                                <div className="mt-2">
-                                    <input
-                                        type="email"
-                                        id="us_email"
-                                        {...register("email")}
-                                        className="block w-full rounded-md bg-white/5 outline-1 -outline-offset-1 outline-white/10 py-1.5 px-3 text-white shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none sm:text-sm" />
-                                </div>
-                                {errors?.email && (
-                                    <p className="mt-1 text-xs text-red-400">{errors.email.message}</p>
-                                )}
-                            </div>
-                            <div className="mt-6">
-                                <label htmlFor="us_password" className="block text-sm/6 font-medium text-white">
-                                    Password
-                                </label>
-                                <div className="mt-2">
-                                    <input
-                                        type="password"
-                                        id="us_password"
-                                        {...register("password")}
-                                        className="block w-full rounded-md bg-white/5 outline-1 -outline-offset-1 outline-white/10 py-1.5 px-3 text-white shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none sm:text-sm" />
-                                </div>
-                                {errors?.password && (
-                                    <p className="mt-1 text-xs text-red-400">{errors.password.message}</p>
-                                )}
-                            </div>
+                            <Input
+                                id="us_email"
+                                label="Email address"
+                                type="email"
+                                register={register("email")}
+                                error={errors?.email}
+                                labelClassName="block text-sm/6 font-medium text-white"
+                                errorClassName="mt-1 text-xs text-red-400"
+                                className="block w-full rounded-md bg-white/5 outline-1 -outline-offset-1 outline-white/10 py-1.5 px-3 text-white shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none sm:text-sm"
+                            />
+
+                            <Input
+                                id="us_password"
+                                label="Password"
+                                type="password"
+                                containerClassName="mt-6"
+                                register={register("password")}
+                                error={errors?.password}
+                                labelClassName="block text-sm/6 font-medium text-white"
+                                errorClassName="mt-1 text-xs text-red-400"
+                                className="block w-full rounded-md bg-white/5 outline-1 -outline-offset-1 outline-white/10 py-1.5 px-3 text-white shadow-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none sm:text-sm"
+                            />
 
                             <div className="mt-6">
                                 <ButtonLoading

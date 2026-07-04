@@ -3,6 +3,7 @@ import { jsonDateToInputDate } from "../../libs/utils/date-formatter";
 import userImage from "../../assets/user-details.png";
 import ButtonLoading from "../../components/utilities/button-loading";
 import ErrorMessage from "../../components/utilities/error-message";
+import Input from "../../components/forms/input";
 import { useUserDetailsPresenter } from "./user-details.presenter";
 
 export default function UserDetails() {
@@ -21,9 +22,6 @@ export default function UserDetails() {
     } = useUserDetailsPresenter(params.id);
 
     // Styles
-    const inputWrapperStyle = "flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600";
-    const inputWrapperErrorStyle = `${inputWrapperStyle} outline-red-600`;
-    const inputStyle = "block min-w-0 grow bg-white py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6 disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none";
     const buttonDisabled = "disabled:bg-gray-400 disabled:opacity-100 disabled:cursor-not-allowed";
 
     if (params.id > 0 && !isDataFetched) {
@@ -54,91 +52,48 @@ export default function UserDetails() {
                     <fieldset disabled={isFormDisabled}>
                         <form onSubmit={handleSaveUserDetails}>
                             <div className="sm:col-span-3">
-                                <div>
-                                    <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">
-                                        Username
-                                    </label>
-                                    <div className="mt-2">
-                                        <div className={errors?.username ? inputWrapperErrorStyle : inputWrapperStyle}>
-                                            <input
-                                                id="username"
-                                                type="text"
-                                                placeholder="Input username.."
-                                                className={inputStyle}
-                                                {...register("username")}
-                                            />
-                                        </div>
-                                        {errors?.username && (
-                                            <div className="mt-2 pl-2">
-                                                <p className="text-xs text-red-600">{errors.username.message}</p>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
+                                <Input
+                                    id="username"
+                                    label="Username"
+                                    type="text"
+                                    placeholder="Input username.."
+                                    register={register("username")}
+                                    error={errors?.username}
+                                    enabled={!isFormDisabled}
+                                />
 
-                                <div className="mt-4">
-                                    <label htmlFor="name" className="block text-sm/6 font-medium text-gray-900">
-                                        Name
-                                    </label>
-                                    <div className="mt-2">
-                                        <div className={errors?.name ? inputWrapperErrorStyle : inputWrapperStyle}>
-                                            <input
-                                                id="name"
-                                                type="text"
-                                                placeholder="Input name.."
-                                                className={inputStyle}
-                                                {...register("name")}
-                                            />
-                                        </div>
-                                        {errors?.name && (
-                                            <div className="mt-2 pl-2">
-                                                <p className="text-xs text-red-600">{errors.name.message}</p>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
+                                <Input
+                                    id="name"
+                                    label="Name"
+                                    type="text"
+                                    placeholder="Input name.."
+                                    containerClassName="mt-4"
+                                    register={register("name")}
+                                    error={errors?.name}
+                                    enabled={!isFormDisabled}
+                                />
 
-                                <div className="mt-4">
-                                    <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
-                                        Email
-                                    </label>
-                                    <div className="mt-2">
-                                        <div className={errors?.email ? inputWrapperErrorStyle : inputWrapperStyle}>
-                                            <input
-                                                id="email"
-                                                type="email"
-                                                placeholder="Input email.."
-                                                className={inputStyle}
-                                                {...register("email")}
-                                            />
-                                        </div>
-                                        {errors?.email && (
-                                            <div className="mt-2 pl-2">
-                                                <p className="text-xs text-red-600">{errors.email.message}</p>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
+                                <Input
+                                    id="email"
+                                    label="Email"
+                                    type="email"
+                                    placeholder="Input email.."
+                                    containerClassName="mt-4"
+                                    register={register("email")}
+                                    error={errors?.email}
+                                    enabled={!isFormDisabled}
+                                />
 
-                                {
-                                    params.id > 0 &&
-                                    <div className="mt-4">
-                                        <label htmlFor="createdAt" className="block text-sm/6 font-medium text-gray-900">
-                                            Created At
-                                        </label>
-                                        <div className="mt-2">
-                                            <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
-                                                <input
-                                                    id="createdAt"
-                                                    type="date"
-                                                    className={inputStyle}
-                                                    disabled
-                                                    value={jsonDateToInputDate(userDetails?.createdAt)}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
+                                {params.id > 0 && (
+                                    <Input
+                                        id="createdAt"
+                                        label="Created At"
+                                        type="date"
+                                        containerClassName="mt-4"
+                                        enabled={false}
+                                        value={jsonDateToInputDate(userDetails?.createdAt)}
+                                    />
+                                )}
                             </div>
 
                             <div className="mt-4 w-full flex justify-end">
