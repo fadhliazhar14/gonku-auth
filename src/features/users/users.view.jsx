@@ -30,18 +30,12 @@ export default function UsersView() {
 
     return (
         <ScreenLayout
-            titlePlaceholder={
-                <>
-                    <h1 className="text-2xl font-bold text-gray-900">Users</h1>
-                    <p className="mt-1 text-sm text-gray-500">
-                        A list of all users in the system including their name, username, email, status and creation date.
-                    </p>
-                    <div className="mt-4">
-                        {errorMessage && <ErrorMessage message={errorMessage} />}
-                    </div>
-                </>
-            }
+            title="Users"
+            description="A list of all users in the system including their name, username, email, status and creation date."
         >
+            <div className="mb-4">
+                {errorMessage && <ErrorMessage message={errorMessage} />}
+            </div>
             <form onSubmit={(e) => handleSearch(e)} className="w-full sm:flex-row gap-3 mb-6">
                 <div className="w-full flex gap-3">
                     <select

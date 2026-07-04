@@ -5,6 +5,7 @@ import Button from "../../components/forms/button";
 import ButtonLoading from "../../components/utilities/button-loading";
 import ErrorMessage from "../../components/utilities/error-message";
 import Input from "../../components/forms/input";
+import ScreenLayout from "../../components/layout/screen-layout.view";
 import { useUserDetailsPresenter } from "./user-details.presenter";
 
 export default function UserDetails() {
@@ -34,16 +35,10 @@ export default function UserDetails() {
     }
 
     return (
-        <div className="p-6 max-w-7xl mx-auto">
-            <div className="sm:flex sm:items-center sm:justify-between mb-6">
-                <div>
-                    <h1 className="text-2xl font-bold text-gray-900">User Details</h1>
-                    <p className="mt-1 text-sm text-gray-500">
-                        Details of user data, show their name, username, email, status and creation date.
-                    </p>
-                </div>
-            </div>
-
+        <ScreenLayout
+            title="User Details"
+            description="Details of user data, show their name, username, email, status and creation date."
+        >
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="sm:col-span-3">
                     <div>
@@ -120,6 +115,6 @@ export default function UserDetails() {
                     <img src={userImage} />
                 </div>
             </div>
-        </div>
+        </ScreenLayout>
     )
 }

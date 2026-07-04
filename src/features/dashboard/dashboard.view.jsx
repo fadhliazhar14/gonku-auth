@@ -1,7 +1,8 @@
+import ScreenLayout from "../../components/layout/screen-layout.view";
+
 export default function DashboardView() {
     return (
-        <div>
-            <h1>Dashboard</h1>
-        </div>
+        <ScreenLayout title="Dashboard">
+        </ScreenLayout>
     );
 }
