@@ -1,6 +1,6 @@
 import { useLocation } from "react-router";
-import { useAuthStore } from "../store/useAuthStore";
-import { hasPermission } from "../libs/permission";
+import { useAuthStore } from "./useAuthStore";
+import { hasPermission } from "../utils/permission";
 
 export function usePermissions() {
   const user = useAuthStore((state) => state.user);

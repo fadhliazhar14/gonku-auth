@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ROUTES } from "../../constants/routes";
 import { getUserById, saveUser } from "./user-details.api";
-import { UserDetailsSchema } from "./user-details-schema";
-import { showToast } from "../../libs/utils/toast";
+import { UserDetailsSchema } from "../../schemas/user-details.schema";
+import { showToast } from "../../utils/toast";
 
 export const useUserDetailsPresenter = (id = 0) => {
     const queryClient = useQueryClient();

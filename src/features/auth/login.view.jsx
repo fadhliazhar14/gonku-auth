@@ -1,5 +1,5 @@
-import ButtonLoading from "../../components/utilities/button-loading";
-import ErrorMessage from "../../components/utilities/error-message";
+import ButtonLoading from "../../components/ui/button-loading";
+import ErrorMessage from "../../components/ui/error-message";
 import Input from "../../components/forms/input";
 import { useLoginPresenter } from "./login.presenter";
 

@@ -1,5 +1,5 @@
-import { useAuthStore } from "../../store/useAuthStore";
-import { usePermissions } from "../../hooks/usePermissions";
+import { useAuthStore } from "./useAuthStore";
+import { usePermissions } from "./usePermissions";
 
 export const useAppLayoutPresenter = () => {
   const user = useAuthStore((state) => state.user);

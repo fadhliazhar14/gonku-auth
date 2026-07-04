@@ -1,9 +1,9 @@
-import { useParams } from "react-router"
-import { jsonDateToInputDate } from "../../libs/utils/date-formatter";
+import { useParams } from "react-router";
+import { jsonDateToInputDate } from "../../utils/date-formatter";
 import userImage from "../../assets/user-details.png";
 import Button from "../../components/forms/button";
-import ButtonLoading from "../../components/utilities/button-loading";
-import ErrorMessage from "../../components/utilities/error-message";
+import ButtonLoading from "../../components/ui/button-loading";
+import ErrorMessage from "../../components/ui/error-message";
 import Input from "../../components/forms/input";
 import ScreenLayout from "../../components/layout/screen-layout.view";
 import { useUserDetailsPresenter } from "./user-details.presenter";
