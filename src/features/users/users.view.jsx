@@ -6,6 +6,7 @@ import ActionButton from "../../components/utilities/action-button";
 import ErrorMessage from "../../components/utilities/error-message";
 import Input from "../../components/forms/input";
 import Button from "../../components/forms/button";
+import ScreenLayout from "../../components/layout/screen-layout.view";
 import { useUsersPresenter } from "./users.presenter";
 
 
@@ -28,9 +29,9 @@ export default function UsersView() {
     } = useUsersPresenter();
 
     return (
-        <div className="p-6 max-w-7xl mx-auto">
-            <div className="sm:flex sm:items-center sm:justify-between mb-6">
-                <div>
+        <ScreenLayout
+            titlePlaceholder={
+                <>
                     <h1 className="text-2xl font-bold text-gray-900">Users</h1>
                     <p className="mt-1 text-sm text-gray-500">
                         A list of all users in the system including their name, username, email, status and creation date.
@@ -38,9 +39,9 @@ export default function UsersView() {
                     <div className="mt-4">
                         {errorMessage && <ErrorMessage message={errorMessage} />}
                     </div>
-                </div>
-            </div>
-
+                </>
+            }
+        >
             <form onSubmit={(e) => handleSearch(e)} className="w-full sm:flex-row gap-3 mb-6">
                 <div className="w-full flex gap-3">
                     <select
@@ -157,6 +158,6 @@ export default function UsersView() {
                 actionButtonLabel="Deactivate"
                 closeButtonLabel="Cancel"
             />
-        </div>
+        </ScreenLayout>
     );
 }
