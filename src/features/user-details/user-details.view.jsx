@@ -8,13 +8,14 @@ import { useUserDetailsPresenter } from "./user-details-presenter";
 export default function UserDetails() {
     const params = useParams();
     const {
-        Form,
+        register,
+        errors,
+        isDirty,
         isSubmitLoading,
         errorMessage,
         isFormDisabled,
         userDetails,
         handleNavigateToList,
-        handleFormChange,
         handleSaveUserDetails,
     } = useUserDetailsPresenter(params.id);
 
@@ -22,7 +23,7 @@ export default function UserDetails() {
     const inputWrapperStyle = "flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600";
     const inputWrapperErrorStyle = `${inputWrapperStyle} outline-red-600`;
     const inputStyle = "block min-w-0 grow bg-white py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6 disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none";
-    const buttonDisabled = "disabled:bg-gray-400 disabled:opacity-100 disabled:cursor-not-allowed"
+    const buttonDisabled = "disabled:bg-gray-400 disabled:opacity-100 disabled:cursor-not-allowed";
 
     return (
         <div className="p-6 max-w-7xl mx-auto">
@@ -42,27 +43,25 @@ export default function UserDetails() {
                     </div>
 
                     <fieldset disabled={isFormDisabled}>
-                        <form>
+                        <form onSubmit={handleSaveUserDetails}>
                             <div className="sm:col-span-3">
                                 <div>
                                     <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">
                                         Username
                                     </label>
                                     <div className="mt-2">
-                                        <div className={Form.Widget.username.Valid ? inputWrapperStyle : inputWrapperErrorStyle}>
+                                        <div className={errors?.username ? inputWrapperErrorStyle : inputWrapperStyle}>
                                             <input
                                                 id="username"
-                                                name="username"
                                                 type="text"
                                                 placeholder="Input username.."
                                                 className={inputStyle}
-                                                onChange={handleFormChange}
-                                                value={userDetails.username}
+                                                {...register("username")}
                                             />
                                         </div>
-                                        {!Form.Widget.username.Valid && (
+                                        {errors?.username && (
                                             <div className="mt-2 pl-2">
-                                                <p className="text-xs text-red-600">{Form.Widget.username.Message}</p>
+                                                <p className="text-xs text-red-600">{errors.username.message}</p>
                                             </div>
                                         )}
                                     </div>
@@ -73,20 +72,18 @@ export default function UserDetails() {
                                         Name
                                     </label>
                                     <div className="mt-2">
-                                        <div className={Form.Widget.name.Valid ? inputWrapperStyle : inputWrapperErrorStyle}>
+                                        <div className={errors?.name ? inputWrapperErrorStyle : inputWrapperStyle}>
                                             <input
                                                 id="name"
-                                                name="name"
                                                 type="text"
                                                 placeholder="Input name.."
                                                 className={inputStyle}
-                                                onChange={handleFormChange}
-                                                value={userDetails.name}
+                                                {...register("name")}
                                             />
                                         </div>
-                                        {!Form.Widget.name.Valid && (
+                                        {errors?.name && (
                                             <div className="mt-2 pl-2">
-                                                <p className="text-xs text-red-600">{Form.Widget.name.Message}</p>
+                                                <p className="text-xs text-red-600">{errors.name.message}</p>
                                             </div>
                                         )}
                                     </div>
@@ -97,20 +94,18 @@ export default function UserDetails() {
                                         Email
                                     </label>
                                     <div className="mt-2">
-                                        <div className={Form.Widget.email.Valid ? inputWrapperStyle : inputWrapperErrorStyle}>
+                                        <div className={errors?.email ? inputWrapperErrorStyle : inputWrapperStyle}>
                                             <input
                                                 id="email"
-                                                name="email"
                                                 type="email"
                                                 placeholder="Input email.."
                                                 className={inputStyle}
-                                                onChange={handleFormChange}
-                                                value={userDetails.email}
+                                                {...register("email")}
                                             />
                                         </div>
-                                        {!Form.Widget.email.Valid && (
+                                        {errors?.email && (
                                             <div className="mt-2 pl-2">
-                                                <p className="text-xs text-red-600">{Form.Widget.email.Message}</p>
+                                                <p className="text-xs text-red-600">{errors.email.message}</p>
                                             </div>
                                         )}
                                     </div>
@@ -126,11 +121,10 @@ export default function UserDetails() {
                                             <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
                                                 <input
                                                     id="createdAt"
-                                                    name="createdAt"
                                                     type="date"
                                                     className={inputStyle}
                                                     disabled
-                                                    value={jsonDateToInputDate(userDetails.createdAt)}
+                                                    value={jsonDateToInputDate(userDetails?.createdAt)}
                                                 />
                                             </div>
                                         </div>
@@ -150,6 +144,7 @@ export default function UserDetails() {
                                     isLoading={isSubmitLoading}
                                     isShowLabelOnLoading={true}
                                     style={buttonDisabled}
+                                    disabled={!isDirty || isSubmitLoading || isFormDisabled}
                                 >Save</ButtonLoading>
                             </div>
                         </form>

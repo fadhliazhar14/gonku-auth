@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { loginUser } from "./login.api";
 import { useNavigate } from "react-router";
 import { useAuthStore } from "../../store/useAuthStore";
@@ -12,10 +14,22 @@ const loginSchema = z.object({
 });
 
 export function useLoginPresenter() {
-    const [formData, setFormData] = useState({ email: '', password: '' });
     const [errorMessage, setErrorMessage] = useState(null);
     const setLoginSession = useAuthStore((state) => state.setLoginSession);
     const navigate = useNavigate();
+
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors }
+    } = useForm({
+        resolver: zodResolver(loginSchema),
+        defaultValues: {
+            email: "",
+            password: ""
+        }
+    });
 
     const loginMutation = useMutation({
         mutationFn: ({ email, password }) => loginUser(email, password),
@@ -33,35 +47,21 @@ export function useLoginPresenter() {
             }
         },
         onError: (error) => {
-            setFormData({ email: '', password: '' });
+            reset({ email: '', password: '' });
             setErrorMessage(error.message);
         }
     });
 
-    function handleChange(e) {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    }
-
-    function handleLogin(e) {
-        e.preventDefault();
-
-        const validation = loginSchema.safeParse(formData);
-        if (!validation.success) {
-            const firstError = validation.error.issues[0]?.message || 'Validasi gagal.';
-            setErrorMessage(firstError);
-            return;
-        }
-
+    const handleLogin = handleSubmit((data) => {
         setErrorMessage(null);
-        loginMutation.mutate({ email: formData.email, password: formData.password });
-    }
+        loginMutation.mutate({ email: data.email, password: data.password });
+    });
 
     return {
-        formData,
+        register,
+        errors,
         isLoading: loginMutation.isPending,
         errorMessage,
-        handleChange,
         handleLogin
     };
 }
