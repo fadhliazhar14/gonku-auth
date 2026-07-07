@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteUserById, getUsers } from "./users.api";
+import { deleteUserById, reactivateUserById, getUsers } from "./users.api";
 import { useNavigate } from "react-router";
 import { showToast } from "../../utils/toast";
 import { userSchema } from "../../schemas/user.schema";
@@ -18,6 +18,7 @@ export function useUsersPresenter() {
     });
     const [isToggle, setIsToggle] = useState(false);
     const currentUserId = useRef(null);
+    const currentAction = useRef(null); // "deactivate" | "reactivate"
     const [searchVal, setSearchVal] = useState("");
     const [searchByVal, setSearchByVal] = useState("");
 
@@ -57,6 +58,15 @@ export function useUsersPresenter() {
         }
     });
 
+    const reactivateMutation = useMutation({
+        mutationFn: (userId) => reactivateUserById(userId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["users"] });
+            setIsToggle(false);
+            showToast.success("User has been reactivated successfully");
+        }
+    });
+
     const handleSearch = useCallback((e) => {
         e.preventDefault();
 
@@ -81,8 +91,12 @@ export function useUsersPresenter() {
     };
 
     const handleDelete = useCallback(() => {
-        deleteMutation.mutate(currentUserId.current);
-    }, [deleteMutation]);
+        if (currentAction.current === "reactivate") {
+            reactivateMutation.mutate(currentUserId.current);
+        } else {
+            deleteMutation.mutate(currentUserId.current);
+        }
+    }, [deleteMutation, reactivateMutation]);
 
     const handlePageChange = useCallback((newPage) => {
         setQueryParams(prev => ({
@@ -97,15 +111,16 @@ export function useUsersPresenter() {
         });
     }, [navigate]);
 
-    const handleToggle = useCallback((userId) => {
+    const handleToggle = useCallback((userId, action = "deactivate") => {
         setIsToggle(prev => !prev);
         currentUserId.current = userId;
+        currentAction.current = action;
     }, []);
 
     return {
         users: usersQuery.data?.users ?? null,
-        isLoading: usersQuery.isLoading || deleteMutation.isPending,
-        errorMessage: usersQuery.error?.message || deleteMutation.error?.message || null,
+        isLoading: usersQuery.isLoading || deleteMutation.isPending || reactivateMutation.isPending,
+        errorMessage: usersQuery.error?.message || deleteMutation.error?.message || reactivateMutation.error?.message || null,
         pagination: usersQuery.data?.pagination ?? {
             totalPages: 0,
             totalElements: 0,
@@ -114,6 +129,7 @@ export function useUsersPresenter() {
         },
         queryParams,
         currentUserId,
+        currentAction,
         isToggle,
         searchVal,
         searchByVal,
