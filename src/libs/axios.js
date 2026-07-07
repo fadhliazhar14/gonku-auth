@@ -33,9 +33,10 @@ api.interceptors.response.use(
       error.response &&
       (error.response.status === 401 || error.response.status === 403);
 
+    const isSigninUrl = originalRequest?.url?.includes('/signin');
     const isRefreshUrl = originalRequest?.url?.includes('/refresh-token');
 
-    if (isUnauthorized && !originalRequest._retry && !isRefreshUrl) {
+    if (isUnauthorized && !originalRequest._retry && !isRefreshUrl && !isSigninUrl) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
