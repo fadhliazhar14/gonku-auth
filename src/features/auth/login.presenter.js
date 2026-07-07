@@ -16,7 +16,6 @@ export function useLoginPresenter() {
     const {
         register,
         handleSubmit,
-        reset,
         formState: { errors }
     } = useForm({
         resolver: zodResolver(loginSchema),
@@ -42,7 +41,6 @@ export function useLoginPresenter() {
             }
         },
         onError: (error) => {
-            reset({ email: '', password: '' });
             setErrorMessage(error.message);
         }
     });
