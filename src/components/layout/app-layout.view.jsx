@@ -1,5 +1,5 @@
 import { Outlet } from "react-router";
-import { useAppLayoutPresenter } from "../../hooks/app-layout.presenter";
+import { useAppLayoutPresenter } from "./app-layout.presenter";
 import Sidebar from "./sidebar.view";
 import AppLayoutLoading from "./app-layout-loading.view";
 
