@@ -29,4 +29,14 @@ export async function deleteUserById(id) {
     const response = await api.delete(`/users/${id}`);
 
     return response.data;
+}
+
+export async function reactivateUserById(id) {
+    if (!id || id === 0 || id === "0") {
+        throw new Error("Trying to reactivate user with null Id");
+    }
+
+    const response = await api.patch(`/users/${id}/reactivate`);
+
+    return response.data;
 }

@@ -17,6 +17,7 @@ export default function UsersView() {
         users, 
         pagination,
         isToggle,
+        currentAction,
         searchVal,
         searchByVal,
         handleSearch, 
@@ -109,12 +110,21 @@ export default function UsersView() {
                                                 handleClick={() => handleNavigateToDetail(user.id)}
                                                 >Update
                                             </ActionButton>
-                                            <ActionButton
-                                                variant="delete"
-                                                appearance="solid"
-                                                handleClick={() => handleToggle(user.id)}
+                                            {user.isActive ? (
+                                                <ActionButton
+                                                    variant="delete"
+                                                    appearance="solid"
+                                                    handleClick={() => handleToggle(user.id, "deactivate")}
                                                 >Deactivate
-                                            </ActionButton>
+                                                </ActionButton>
+                                            ) : (
+                                                <ActionButton
+                                                    variant="edit"
+                                                    appearance="solid"
+                                                    handleClick={() => handleToggle(user.id, "reactivate")}
+                                                >Reactivate
+                                                </ActionButton>
+                                            )}
                                         </td>
                                     </tr>
                                 ))
@@ -139,17 +149,21 @@ export default function UsersView() {
             />
 
             <Modal 
-                title="Deactivate user"
+                title={currentAction.current === "reactivate" ? "Reactivate user" : "Deactivate user"}
                 children={
                     <>
-                        <p className="text-sm text-gray-500">Are you sure you want to deactivate this user?</p>
-                        <p className="text-sm text-gray-500">This action cannot be undone.</p>
+                        <p className="text-sm text-gray-500">
+                            Are you sure you want to {currentAction.current === "reactivate" ? "reactivate" : "deactivate"} this user?
+                        </p>
+                        {currentAction.current !== "reactivate" && (
+                            <p className="text-sm text-gray-500">This action cannot be undone.</p>
+                        )}
                     </>
                 }
                 isOpen={isToggle}
                 handleClose={() => handleToggle(null)}
                 handleAction={() => handleDelete()}
-                actionButtonLabel="Deactivate"
+                actionButtonLabel={currentAction.current === "reactivate" ? "Reactivate" : "Deactivate"}
                 closeButtonLabel="Cancel"
             />
         </ScreenLayout>
