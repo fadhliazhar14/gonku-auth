@@ -37,7 +37,7 @@ export function useLoginPresenter() {
                     pathname: '/dashboard'
                 });
             } else {
-                setErrorMessage('Struktur data user dari server tidak valid.');
+                setErrorMessage('Invalid user data structure from server.');
             }
         },
         onError: (error) => {
