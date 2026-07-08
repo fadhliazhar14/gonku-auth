@@ -10,6 +10,7 @@ import { useUserDetailsPresenter } from "./user-details.presenter";
 
 export default function UserDetails() {
     const params = useParams();
+    const numericId = Number(params.id);
     const {
         register,
         errors,
@@ -26,7 +27,7 @@ export default function UserDetails() {
     // Styles
     const buttonDisabled = "disabled:bg-gray-400 disabled:opacity-100 disabled:cursor-not-allowed";
 
-    if (params.id > 0 && !isDataFetched) {
+    if (numericId > 0 && !isDataFetched) {
         return (
             <div className="flex flex-1 items-center justify-center p-8 bg-white">
                 <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-indigo-600"></div>
@@ -80,7 +81,7 @@ export default function UserDetails() {
                                     enabled={!isFormDisabled}
                                 />
 
-                                {params.id > 0 && (
+                                {numericId > 0 && (
                                     <Input
                                         id="createdAt"
                                         label="Created At"
