@@ -13,10 +13,8 @@ export async function getUsers({ page = 0, size = 10, search = "", searchBy = ""
             params.append("searchBy", searchBy);
         }
 
-        const requestSignal = signal?.current?.signal || signal;
-
         const response = await api.get(`/users?${params.toString()}`, {
-            signal: requestSignal,
+            signal,
         });
 
         return response.data;
