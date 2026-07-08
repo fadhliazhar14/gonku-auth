@@ -37,12 +37,14 @@ export default function ErrorBoundary() {
         Refresh Page
       </Button>
 
-      <details className="mt-8 text-left w-full max-w-2xl bg-white p-4 rounded border border-red-100 text-xs overflow-auto">
-        <summary className="cursor-pointer font-semibold text-red-700 mb-2">
-          Error Details (Development Only)
-        </summary>
-        <pre className="text-red-600 whitespace-pre-wrap">{error?.stack || error?.message || String(error)}</pre>
-      </details>
+      {import.meta.env.DEV && (
+        <details className="mt-8 text-left w-full max-w-2xl bg-white p-4 rounded border border-red-100 text-xs overflow-auto">
+          <summary className="cursor-pointer font-semibold text-red-700 mb-2">
+            Error Details (Development Only)
+          </summary>
+          <pre className="text-red-600 whitespace-pre-wrap">{error?.stack || error?.message || String(error)}</pre>
+        </details>
+      )}
     </div>
   );
 }
