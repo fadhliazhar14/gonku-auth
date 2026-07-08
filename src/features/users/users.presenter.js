@@ -29,12 +29,12 @@ export function useUsersPresenter() {
             const usersData = data?.data?.content;
 
             if (usersData === undefined) {
-                throw new Error("Struktur respons API tidak sesuai (Key 'content' tidak ditemukan)");
+                throw new Error("API response structure is invalid (Key 'content' not found)");
             }
 
             const parsedUsers = z.array(userSchema.passthrough()).safeParse(usersData);
             if (!parsedUsers.success) {
-                throw new Error("Struktur data daftar user dari server tidak valid.");
+                throw new Error("Invalid user list data structure from server.");
             }
 
             return {
@@ -55,6 +55,9 @@ export function useUsersPresenter() {
             queryClient.invalidateQueries({ queryKey: ["users"] });
             setIsToggle(false);
             showToast.success("User has been deactivated successfully");
+        },
+        onError: (error) => {
+            showToast.error(error.message);
         }
     });
 
@@ -64,6 +67,9 @@ export function useUsersPresenter() {
             queryClient.invalidateQueries({ queryKey: ["users"] });
             setIsToggle(false);
             showToast.success("User has been reactivated successfully");
+        },
+        onError: (error) => {
+            showToast.error(error.message);
         }
     });
 
