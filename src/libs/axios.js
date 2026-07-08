@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_BASE_URL } from '../constants/api';
+import { useAuthStore } from '../hooks/useAuthStore';
 
 const api = axios.create({
   baseURL: API_BASE_URL.API,
@@ -35,8 +36,9 @@ api.interceptors.response.use(
 
     const isSigninUrl = originalRequest?.url?.includes('/signin');
     const isRefreshUrl = originalRequest?.url?.includes('/refresh-token');
+    const isSignoutUrl = originalRequest?.url?.includes('/signout');
 
-    if (isUnauthorized && !originalRequest._retry && !isRefreshUrl && !isSigninUrl) {
+    if (isUnauthorized && !originalRequest._retry && !isRefreshUrl && !isSigninUrl && !isSignoutUrl) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
@@ -56,6 +58,7 @@ api.interceptors.response.use(
       } catch (refreshError) {
         isRefreshing = false;
         processQueue(refreshError);
+        useAuthStore.getState().logout().catch(() => {});
         return Promise.reject(refreshError);
       }
     }
