@@ -22,7 +22,6 @@ export const useAuthStore = create((set) => ({
       });
     } catch (error) {
       set({ isAuthenticated: false, user: null, isLoading: false });
-      console.error(error);
     }
   },
 
