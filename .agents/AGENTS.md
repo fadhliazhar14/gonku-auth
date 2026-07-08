@@ -38,6 +38,7 @@ See `.claude/skills/skills-index/SKILL.md` for the canonical index and routing r
 | `developer-pre-pr-checklist` | Self-review before opening a PR — run verification commands and checklist   |
 | `stop-slop`                  | Remove AI generic before writing content, useful in writing comments/review |
 | `use-tanstack-query`         | Writing or modifying a presenter hook that fetches, mutates, or invalidates cache data |
+| `use-auth-store`             | Reading or writing auth state: current user, login session, logout, RBAC permissions   |
 
 ## Project Overview
 

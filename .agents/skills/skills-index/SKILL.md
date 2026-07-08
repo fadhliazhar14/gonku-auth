@@ -33,6 +33,7 @@ Always `Read` the skill file directly — do **not** invoke a project skill by n
 | `refactor-large-file`        | Splitting a file that exceeds 250 lines into submodules                                |
 | `git-commit`                 | Committing after a task is complete and all verifications pass                         |
 | `use-tanstack-query`         | Writing or modifying a presenter hook that fetches, mutates, or invalidates cache data |
+| `use-auth-store`             | Reading or writing auth state: current user, login session, logout, RBAC permissions   |
 
 ## How to Add a New Skill
 
