@@ -10,10 +10,14 @@ export const useAuthStore = create((set) => ({
   fetchUserSession: async () => {
     try {
       const response = await api.get('/auth/me');
-      const parsedUser = userSchema.safeParse(response.data.data.userData).data;
+      const parsed = userSchema.safeParse(response.data.data.userData);
+      if (!parsed.success) {
+        set({ isAuthenticated: false, user: null, isLoading: false });
+        return;
+      }
       set({
         isAuthenticated: true,
-        user: parsedUser,
+        user: parsed.data,
         isLoading: false,
       });
     } catch (error) {
