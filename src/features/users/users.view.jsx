@@ -130,7 +130,7 @@ export default function UsersView() {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="5" className="px-6 py-10 text-center text-sm text-gray-500">
+                                    <td colSpan="6" className="px-6 py-10 text-center text-sm text-gray-500">
                                         No users found.
                                     </td>
                                 </tr>
