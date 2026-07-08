@@ -3,7 +3,6 @@ import Button from "../forms/button";
 
 export default function ErrorBoundary() {
   const error = useRouteError();
-  console.log(error);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[400px] p-6 text-center bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
