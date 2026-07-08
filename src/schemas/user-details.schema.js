@@ -19,10 +19,3 @@ export const UserDetailsSchema = z.object({
   password: z.string().optional()
 });
 
-export const UserDetailsModel = {
-  initialValues: {
-    username: "",
-    name: "",
-    email: ""
-  }
-};
