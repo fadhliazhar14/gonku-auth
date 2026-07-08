@@ -20,7 +20,7 @@ export const useAuthStore = create((set) => ({
         user: parsed.data,
         isLoading: false,
       });
-    } catch (error) {
+    } catch {
       set({ isAuthenticated: false, user: null, isLoading: false });
     }
   },
