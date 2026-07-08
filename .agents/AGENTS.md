@@ -23,6 +23,7 @@ See `.claude/skills/skills-index/SKILL.md` for the canonical index and routing r
 | ---------------------------- | --------------------------------------------------------------------------- |
 | `add-api-endpoint`           | Creating any new REST route in `apps/api`                                   |
 | `add-frontend-feature`       | Creating a new page or feature section in `apps/web`                        |
+| `add-route`                  | Registering a new route in `src/main.jsx` (Data Router + Layout Route)      |
 | `add-drizzle-migration`      | Adding or changing a database table/column                                  |
 | `add-shared-schema`          | Adding Zod schemas or types to `packages/shared`                            |
 | `add-unit-test`              | Writing tests for service, repository, or presenter code                    |
@@ -36,6 +37,7 @@ See `.claude/skills/skills-index/SKILL.md` for the canonical index and routing r
 | `git-commit`                 | Committing after a task is complete and verified                            |
 | `developer-pre-pr-checklist` | Self-review before opening a PR — run verification commands and checklist   |
 | `stop-slop`                  | Remove AI generic before writing content, useful in writing comments/review |
+| `use-tanstack-query`         | Writing or modifying a presenter hook that fetches, mutates, or invalidates cache data |
 
 ## Project Overview
 
