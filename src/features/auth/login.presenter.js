@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 import { useAuthStore } from "../../hooks/useAuthStore";
 import { userSchema } from "../../schemas/user.schema";
 import { loginSchema } from "../../schemas/login.schema";
+import { ROUTES } from "../../constants/routes";
 
 export function useLoginPresenter() {
     const [errorMessage, setErrorMessage] = useState(null);
@@ -34,7 +35,7 @@ export function useLoginPresenter() {
             if (user.success) {
                 setLoginSession(user.data);
                 navigate({
-                    pathname: '/dashboard'
+                    pathname: ROUTES.DASHBOARD
                 });
             } else {
                 setErrorMessage('Invalid user data structure from server.');

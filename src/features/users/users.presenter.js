@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import { showToast } from "../../utils/toast";
 import { userSchema } from "../../schemas/user.schema";
 import { z } from "zod";
+import { ROUTES } from "../../constants/routes";
 
 export function useUsersPresenter() {
     const queryClient = useQueryClient();
@@ -113,7 +114,7 @@ export function useUsersPresenter() {
 
     const handleNavigateToDetail = useCallback((userId) => {
         navigate({
-            pathname: `/user-details/${userId}`
+            pathname: ROUTES.USER_DETAILS.replace(':id', userId)
         });
     }, [navigate]);
 
